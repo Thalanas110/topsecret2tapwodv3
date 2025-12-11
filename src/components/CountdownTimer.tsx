@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import FlipDigit from './FlipDigit';
 
 interface TimeLeft {
   days: number;
@@ -33,6 +34,18 @@ const CountdownTimer = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const [useFlip, setUseFlip] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setUseFlip(window.innerWidth > 1100);
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const formatNumber = (num: number) => String(num).padStart(2, '0');
 
   return (
@@ -48,11 +61,15 @@ const CountdownTimer = () => {
           { value: timeLeft.seconds, label: 'Secs' },
         ].map((item, index) => (
           <div key={item.label} className="flex flex-col items-center">
-            <div className="countdown-digit w-14 h-16 md:w-20 md:h-24 flex items-center justify-center rounded-md">
-              <span className="font-military text-2xl md:text-4xl text-gradient-gold">
-                {formatNumber(item.value)}
-              </span>
-            </div>
+            {useFlip ? (
+              <FlipDigit value={item.value} />
+            ) : (
+              <div className="countdown-digit w-14 h-16 md:w-20 md:h-24 flex items-center justify-center rounded-md">
+                <span className="font-military text-2xl md:text-4xl text-gradient-gold">
+                  {formatNumber(item.value)}
+                </span>
+              </div>
+            )}
             <span className="text-xs md:text-sm uppercase tracking-wider text-muted-foreground mt-2">
               {item.label}
             </span>
