@@ -43,7 +43,7 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} War of Dots. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground mt-2">
-            Made by CuriousAnt, Tjdog19, and Thalanas
+            Made with the help of CuriousAnt, Tjdog19, and Thalanas
           </p>
         </div>
       </div>
