@@ -1,13 +1,24 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, MouseEvent } from "react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
+
+  const handleWithdrawal = (e: MouseEvent) => {
+    e.preventDefault();
+    setIsExiting(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 500); // Wait for transition duration
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
@@ -15,7 +26,10 @@ const NotFound = () => {
       <div className="fog-overlay absolute inset-0 z-0" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-      <div className="relative z-10 text-center px-4 max-w-2xl mx-auto animate-fade-up">
+      <div className={cn(
+        "relative z-10 text-center px-4 max-w-2xl mx-auto transition-all duration-500 ease-in-out",
+        isExiting ? "opacity-0 translate-y-10 scale-95" : "animate-fade-up"
+      )}>
         {/* Glitch/Distortion Effect Container */}
         <div className="relative mb-8">
           <h1 className="text-8xl md:text-9xl font-military text-transparent bg-clip-text bg-gradient-to-b from-war-gold to-yellow-700 animate-pulse tracking-widest drop-shadow-[0_0_10px_rgba(234,179,8,0.5)]">
@@ -44,13 +58,11 @@ const NotFound = () => {
 
           <div className="pt-4">
             <Button
-              asChild
+              onClick={handleWithdrawal}
               size="lg"
               className="bg-war-blood hover:bg-red-700 text-white font-military tracking-widest text-lg px-8 border border-red-900 shadow-[0_0_15px_rgba(220,38,38,0.4)] w-full md:w-auto"
             >
-              <a href="/">
-                INITIATE TACTICAL WITHDRAWAL
-              </a>
+              INITIATE TACTICAL WITHDRAWAL
             </Button>
           </div>
         </div>
