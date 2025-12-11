@@ -217,6 +217,7 @@
   }
 
   .flip-digit {
+    perspective: 400px;
     position: relative;
     width: 100%;
     height: 100%;
