@@ -2,6 +2,7 @@ import { Target, Swords, Gem, Star, Shield } from 'lucide-react';
 import redDot from '@/assets/red-dot.png';
 import blueDot from '@/assets/blue-dot.png';
 
+// features
 const features = [
   {
     icon: Target,
@@ -16,7 +17,7 @@ const features = [
   {
     icon: Gem,
     title: 'Resource Management',
-    description: 'tockpile resources or upgrade your troops. Outmaneuver your opponents not just with force, but with cunning strategy',
+    description: 'Stockpile resources or upgrade your troops. Outmaneuver your opponents not just with force, but with cunning strategy',
   },
   {
     icon: Star,
