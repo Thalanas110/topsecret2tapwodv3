@@ -45,7 +45,7 @@ const NotFound = () => {
             <h2 className="text-2xl md:text-3xl font-military text-war-gold tracking-wider">
               SECTOR NULL // ACCESS DENIED
             </h2>
-            <p className="text-xl text-red-500 font-mono tracking-widest uppercase">
+            <p className="text-xl text-red-300 font-mono tracking-widest uppercase">
               // PROTOCOL VIOLATION DETECTED //
             </p>
           </div>

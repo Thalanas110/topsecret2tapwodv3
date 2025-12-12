@@ -84,7 +84,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <div className="animate-fade-up">
-          <h1 className="font-military text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gradient-gold mb-4 drop-shadow-2xl">
+          <h1 className="font-military text-5xl sm:text-6xl md:text-8xl lg:text-7xl 2xl:text-9xl text-gradient-gold mb-4 drop-shadow-2xl">
             WAR OF DOTS
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 mb-2 uppercase tracking-[0.2em]">
