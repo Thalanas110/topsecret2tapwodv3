@@ -8,7 +8,7 @@ interface TimeLeft {
   seconds: number;
 }
 
-const RELEASE_DATE = new Date('2026-01-15T00:00:00').getTime();
+const RELEASE_DATE = new Date('2026-01-17T00:00:00').getTime();
 
 const CountdownTimer = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -77,7 +77,7 @@ const CountdownTimer = () => {
         ))}
       </div>
       <p className="text-sm text-muted-foreground mt-2">
-        January 15, 2026
+        January 17, 2026
       </p>
     </div>
   );

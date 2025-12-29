@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SECTOR NULL - War of Dots</title>
+    <link rel="icon" type="image/x-icon" href="/topsecret2tapwodv3/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Oswald:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --background: hsl(120 10% 8%);
+            --foreground: hsl(45 20% 90%);
+            --war-gold: hsl(45 80% 55%);
+            --war-blood: hsl(0 70% 40%);
+            --secondary: hsl(120 15% 18%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Oswald', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .font-military {
+            font-family: 'Black Ops One', cursive;
+        }
+
+        /* Background Effects */
+        .fog-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 30%, hsl(120 10% 8% / 0.6) 70%, hsl(120 10% 8% / 0.95) 100%);
+            z-index: 0;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Loading Container */
+        .loading-container {
+            position: relative;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--war-gold);
+        }
+
+        /* Spinning Radar */
+        .radar-container {
+            position: relative;
+            width: 12rem;
+            height: 12rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-ring {
+            position: absolute;
+            inset: 0;
+            border: 1px solid hsla(45, 80%, 55%, 0.2);
+            border-radius: 50%;
+            animation: spin 4s linear infinite;
+        }
+
+        .radar-ring-dashed {
+            position: absolute;
+            inset: 1rem;
+            border: 1px dashed hsla(45, 80%, 55%, 0.2);
+            border-radius: 50%;
+            animation: spin 8s linear infinite reverse;
+        }
+
+        .radar-sweep {
+            position: absolute;
+            inset: 0;
+            border-top: 2px solid hsla(45, 80%, 55%, 0.5);
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        .progress-text {
+            font-size: 2.5rem;
+            letter-spacing: 0.2em;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Content */
+        .content {
+            width: 100%;
+            max-width: 28rem;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .status-text {
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            height: 0.5rem;
+            width: 100%;
+            background: hsla(120, 15%, 18%, 0.3);
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid hsla(45, 80%, 55%, 0.2);
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--war-gold), hsl(50 100% 50%), var(--war-gold));
+            width: 0%;
+            transition: width 0.2s ease-out;
+            position: relative;
+        }
+
+        .progress-shimmer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent, hsla(0, 0%, 100%, 0.2), transparent);
+            animation: shimmer 1s infinite;
+            transform: skewX(-12deg);
+        }
+
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: hsla(45, 80%, 55%, 0.6);
+            font-family: monospace;
+            letter-spacing: 0.1em;
+        }
+
+        .status-closing {
+            color: hsl(0 70% 50%);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) skewX(-12deg);
+            }
+
+            100% {
+                transform: translateX(100%) skewX(-12deg);
+            }
+        }
+
+        /* Decorative rings behind content */
+        .decorative-ring {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid hsla(45, 80%, 55%, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .ring-lg {
+            width: 150%;
+            height: 150%;
+        }
+
+        .ring-md {
+            width: 100%;
+            height: 100%;
+            border-color: hsla(45, 80%, 55%, 0.1);
+            animation: spin 20s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Effects -->
+    <div class="fog-overlay"></div>
+    <div class="grid-overlay"></div>
+    <div class="vignette"></div>
+    <div class="decorative-ring ring-lg"></div>
+    <div class="decorative-ring ring-md"></div>
+
+    <!-- Loading Content -->
+    <div class="loading-container font-military">
+        <div class="radar-container">
+            <div class="radar-ring"></div>
+            <div class="radar-ring-dashed"></div>
+            <div class="radar-sweep"></div>
+            <div class="progress-text" id="progress-percent">0%</div>
+        </div>
+
+        <div class="content">
+            <h2 class="status-text" id="status-text">INITIATING REDIRECT PROTOCOL...</h2>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress-shimmer"></div>
+                </div>
+            </div>
+
+            <div class="status-info">
+                <span>SECURE CHANNEL: <span class="status-closing">REDIRECTING</span></span>
+                <span id="countdown">T-MINUS: 1.5s</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GitHub Pages SPA redirect with animated loading
+        const repo = '/topsecret2tapwodv3';
+        const path = window.location.pathname.replace(repo, '') || '/';
+
+        let progress = 0;
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        const statusText = document.getElementById('status-text');
+        const countdown = document.getElementById('countdown');
+
+        const statusMessages = [
+            'INITIATING REDIRECT PROTOCOL...',
+            'SCANNING SECTOR COORDINATES...',
+            'ESTABLISHING SECURE CHANNEL...',
+            'HAMMER DOWN.'
+        ];
+
+        function updateStatus(val) {
+            if (val < 30) return statusMessages[0];
+            if (val < 60) return statusMessages[1];
+            if (val < 90) return statusMessages[2];
+            return statusMessages[3];
+        }
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 12;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+
+                // Redirect after completion
+                setTimeout(() => {
+                    window.location.replace(repo + '/#' + path);
+                }, 300);
+            }
+
+            progressBar.style.width = progress + '%';
+            progressPercent.textContent = Math.round(progress) + '%';
+            statusText.textContent = updateStatus(progress);
+            countdown.textContent = 'T-MINUS: ' + Math.max(0, (1.5 - (progress / 100) * 1.5)).toFixed(1) + 's';
+        }, 100);
+    </script>
+</body>
+
+</html>
